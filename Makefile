@@ -8,6 +8,13 @@ LIB		:= lib
 
 LIBRARIES	:=
 EXECUTABLE	:= main
+UNAME_S := $(shell uname -s)
+
+ifeq ($(UNAME_S), Darwin)
+	findArgs = -perm +111 -type f | xargs rm -rfv
+else
+	findArgs = -type f -executable -exec sh -c "file -i '{}' | grep -q 'x-executable; charset=binary'" \; -print | xargs rm -f
+endif
 
 
 all: $(BIN)/$(EXECUTABLE)
@@ -15,8 +22,19 @@ all: $(BIN)/$(EXECUTABLE)
 run: clean all
 	./$(BIN)/$(EXECUTABLE)
 
-$(BIN)/$(EXECUTABLE): $(SRC)/*.cpp
+$(BIN)/$(EXECUTABLE): $(SRC)/*.c*
 	$(CXX) $(CXX_FLAGS) -I$(INCLUDE) -L$(LIB) $^ -o $@ $(LIBRARIES)
 
-clean:
-	-rm $(BIN)/*
+clean: cleanbin cleandir
+	@echo "clean finished"
+
+cleandir:
+	find ./ -name "*.dSYM*" | xargs rm -rfv
+	find ./ -name "*.out" | xargs rm -rfv
+	find ./ -name "*tempCodeRunnerFile" | xargs rm -rfv
+
+cleanbin:
+	-rm -rf $(BIN)/*
+	find ./${SRC} ${findArgs}
+
+	
