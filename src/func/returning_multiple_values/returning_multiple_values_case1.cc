@@ -18,7 +18,7 @@ returning_multiple_values_case1 g()
     string t = "hello";
     int u = 43;
 
-    return {t, u};
+    return {t, u}; //  warning: generalized initializer lists are a C++11 extension [-Wc++11-extensions]
 
     // return {"hello", 10};
 }
