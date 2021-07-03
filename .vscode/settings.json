@@ -64,5 +64,9 @@
         "thread": "cpp"
     },
     "terminal.integrated.shell.windows": "cmd.exe",
-    "commentTranslate.targetLanguage": "zh-CN"
+    "commentTranslate.targetLanguage": "zh-CN",
+    "code-runner.executorMap": {
+        // "c": "cd $dir && gcc -Wall -Wextra -std=c99 -g $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
+        "cpp": "cd $dir && g++ -Wall -Wextra -std=c++17 -g $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt"
+    }
 }
