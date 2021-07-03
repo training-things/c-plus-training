@@ -39,6 +39,7 @@ public:
     breed(string color, string size);
     ~breed();
 
+    // virtual function redefined
     void setEars(string length, string type);
     string getColor();
 };
