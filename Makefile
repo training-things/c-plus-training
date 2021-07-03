@@ -31,6 +31,7 @@ clean: cleanbin cleandir
 cleandir:
 	find ./ -name "*.dSYM*" | xargs rm -rfv
 	find ./ -name "*.out" | xargs rm -rfv
+	find ./ -name "*.h.gch" | xargs rm -rfv
 	find ./ -name "*tempCodeRunnerFile" | xargs rm -rfv
 
 cleanbin:
