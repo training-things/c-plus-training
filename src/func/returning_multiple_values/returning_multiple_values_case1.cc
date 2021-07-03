@@ -12,11 +12,11 @@ struct returning_multiple_values_case1
 
 returning_multiple_values_case1 g()
 {
-    // string t{"hello"}; // error: expected ';' at end of declaration
-    // int u{43};
+    string t{"hello"}; // error: expected ';' at end of declaration that default g++, but ok in -std=c++11
+    int u{43};
 
-    string t = "hello";
-    int u = 43;
+    // string t = "hello";
+    // int u = 43;
 
     return {t, u}; //  warning: generalized initializer lists are a C++11 extension [-Wc++11-extensions]
 
