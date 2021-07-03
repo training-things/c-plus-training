@@ -67,6 +67,6 @@
     "commentTranslate.targetLanguage": "zh-CN",
     "code-runner.executorMap": {
         // "c": "cd $dir && gcc -Wall -Wextra -std=c99 -g $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
-        "cpp": "cd $dir && g++ -Wall -Wextra -std=c++17 -g $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt"
+        "cpp": "cd $dir && g++ -Wall -Wextra -std=c++11 -g $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt"
     }
 }
