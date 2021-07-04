@@ -28,6 +28,7 @@ private:
 
 int main()
 {
+    // 在声明类的实例时，编译器会根据重载决策的规则选择要调用的构造函数：
     Box b; // Calls Box()
 
     // Using uniform initialization (preferred):
