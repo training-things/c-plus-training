@@ -3,3 +3,5 @@ bin
 *.out.*
 *.dSYM*
 *tempCodeRunnerFile*
+
+cmake/**/*build*

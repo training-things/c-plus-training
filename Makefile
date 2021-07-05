@@ -5,6 +5,7 @@ BIN		:= bin
 SRC		:= src
 INCLUDE	:= include
 LIB		:= lib
+CM		:= cmake
 
 LIBRARIES	:=
 EXECUTABLE	:= main
@@ -37,5 +38,6 @@ cleandir:
 cleanbin:
 	-rm -rf $(BIN)/*
 	find ./${SRC} ${findArgs}
+	find ./${CM} ${findArgs}
 
 	
