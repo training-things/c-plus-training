@@ -6,6 +6,7 @@ SRC		:= src
 INCLUDE	:= include
 LIB		:= lib
 CM		:= cmake
+GTEST	:= gtest
 
 LIBRARIES	:=
 EXECUTABLE	:= main
@@ -39,5 +40,6 @@ cleanbin:
 	-rm -rf $(BIN)/*
 	find ./${SRC} ${findArgs}
 	find ./${CM} ${findArgs}
+	find ./${GTEST} ${findArgs}
 
 	
