@@ -5,5 +5,9 @@ bin
 *tempCodeRunnerFile*
 
 cmake/**/*build*
+cmake-build-*
 gtest/**/*build*
 gtest/_deps
+build
+*.idea*
+
