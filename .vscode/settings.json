@@ -95,5 +95,15 @@
         "clang++ - Build and debug active file"
     ],
     "cmake.configureSettings": { "gtest_build_samples": "ON" },
-    "gtest-adapter.debugConfig": ""
+    // google test debug
+    // "testMate.cpp.debug.configTemplate": {
+    //     "type": "cppdbg",
+    //     "MIMode": "lldb",
+    //     "program": "${exec}",
+    //     "args": "${argsArray}",
+    //     "cwd": "${cwd}",
+    //     "env": "${envObj}",
+    //     "sourceFileMap": "${sourceFileMapObj}",
+    //     "externalConsole": false
+    //   }
 }
