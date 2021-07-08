@@ -92,6 +92,8 @@
         ]
     },
     "gtest-adapter.debugConfig": [
-        "C++ Debug (lldb)"
-    ]
+        "clang++ - Build and debug active file"
+    ],
+    "cmake.configureSettings": { "gtest_build_samples": "ON" },
+    "gtest-adapter.debugConfig": ""
 }
