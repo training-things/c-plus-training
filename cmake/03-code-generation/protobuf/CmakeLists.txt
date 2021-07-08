@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.5)
 project (protobuf_example)
 
 # find the protobuf compiler and libraries
-find_package(Protobuf REQUIRED)
+find_package(Protobuf REQUIRED) ## 
 
 # check if protobuf was found
 if(PROTOBUF_FOUND)

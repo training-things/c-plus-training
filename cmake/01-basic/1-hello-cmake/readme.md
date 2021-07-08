@@ -14,19 +14,8 @@ drwxr-xr-x  4 yixiao  staff  128  7  5 08:37 ../
 ➜  1-hello-cmake git:(master) ✗ 
 ➜  1-hello-cmake git:(master) ✗ pwd
 /Users/develop/bootcamp2021/c-plus/cmake/basic/1-hello-cmake
-➜  1-hello-cmake git:(master) ✗ ll
-total 16
-drwxr-xr-x  5 yixiao  staff  160  7  5 08:43 ./
-drwxr-xr-x  4 yixiao  staff  128  7  5 08:37 ../
--rw-r--r--  1 yixiao  staff  242  7  5 08:37 CmakeLists.txt
--rw-r--r--  1 yixiao  staff  108  7  5 08:38 main.cc
--rw-r--r--  1 yixiao  staff    0  7  5 08:43 readme.md
-➜  1-hello-cmake git:(master) ✗ 
 ➜  1-hello-cmake git:(master) ✗ 
 ➜  1-hello-cmake git:(master) ✗ mkdir build && cd build     
-➜  build git:(master) ✗ 
-➜  build git:(master) ✗ 
-➜  build git:(master) ✗ 
 ➜  build git:(master) ✗ 
 ➜  build git:(master) ✗ pwd
 /Users/develop/bootcamp2021/c-plus/cmake/basic/1-hello-cmake/build

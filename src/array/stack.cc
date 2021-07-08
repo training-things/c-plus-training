@@ -6,7 +6,7 @@ int main()
 {
     constexpr size_t size = 1000;
 
-    // Declare an array of doubles to be allocated on the stack
+    // Declare an array of doubles to be allocated on the [stack]
     double numbers[size]{0};
 
     // Assign a new value to the first element
