@@ -29,3 +29,17 @@ int main() {
 
     return 0;
 }
+
+
+/*
+传递右值:
+              普通传参: 左值引用
+       std::move 传参: 右值引用
+    std::forward 传参: 右值引用
+static_cast<T&&> 传参: 右值引用
+传递左值:
+              普通传参: 左值引用
+       std::move 传参: 右值引用
+    std::forward 传参: 左值引用
+static_cast<T&&> 传参: 左值引用
+*/
