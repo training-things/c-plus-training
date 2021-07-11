@@ -23,6 +23,10 @@ int Add1(BTree **Root, char *szToAdd); // 指向指针的指针
 int Add2(BTree *&Root, char *szToAdd); // 对指针的引用
 void PrintTree(BTree *btRoot);
 
+
+// 函数 Add1 和 Add2 在功能上是等效的，尽管它们不是以相同方式调用的。 
+// 不同之处是 Add1 使用双间接寻址，但 Add2 使用对指针的引用的便利性。
+
 int main(int argc, char *argv[])
 {
 
