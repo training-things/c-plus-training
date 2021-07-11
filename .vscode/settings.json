@@ -63,7 +63,7 @@
         "vector": "cpp",
         "thread": "cpp"
     },
-    "terminal.integrated.shell.windows": "cmd.exe",
+    // "terminal.integrated.shell.windows": "cmd.exe",
     "commentTranslate.targetLanguage": "zh-CN",
     "code-runner.executorMap": {
         // "c": "cd $dir && gcc -Wall -Wextra -std=c99 -g $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
@@ -96,14 +96,14 @@
     ],
     "cmake.configureSettings": { "gtest_build_samples": "ON" },
     // google test debug
-    // "testMate.cpp.debug.configTemplate": {
-    //     "type": "cppdbg",
-    //     "MIMode": "lldb",
-    //     "program": "${exec}",
-    //     "args": "${argsArray}",
-    //     "cwd": "${cwd}",
-    //     "env": "${envObj}",
-    //     "sourceFileMap": "${sourceFileMapObj}",
-    //     "externalConsole": false
-    //   }
+    "testMate.cpp.debug.configTemplate": {
+        "type": "cppdbg",
+        "MIMode": "lldb",
+        "program": "${exec}",
+        "args": "${argsArray}",
+        "cwd": "${cwd}",
+        "env": "${envObj}",
+        "sourceFileMap": "${sourceFileMapObj}",
+        "externalConsole": false
+      }
 }
