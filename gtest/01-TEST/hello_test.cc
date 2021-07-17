@@ -30,3 +30,13 @@ TEST(HelloTest, Case3) {
   ASSERT_EQ(0, 0); // ok
 }
 
+
+TEST(HelloTest, Case4) {
+  // Expect equality.
+  EXPECT_NE(7 * 6, 42); // error, go on next assert
+
+  ASSERT_NE(0, 0); // error break Case2
+
+  ASSERT_EQ(0, 0); // ok
+}
+
