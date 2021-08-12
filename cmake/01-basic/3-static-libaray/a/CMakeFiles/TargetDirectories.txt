@@ -1,4 +1,0 @@
-/Users/develop/bootcamp2021/c-plus/cmake/01-basic/3-static-libaray/a/CMakeFiles/rebuild_cache.dir
-/Users/develop/bootcamp2021/c-plus/cmake/01-basic/3-static-libaray/a/CMakeFiles/edit_cache.dir
-/Users/develop/bootcamp2021/c-plus/cmake/01-basic/3-static-libaray/a/CMakeFiles/hello_binary.dir
-/Users/develop/bootcamp2021/c-plus/cmake/01-basic/3-static-libaray/a/CMakeFiles/hello_library.dir
