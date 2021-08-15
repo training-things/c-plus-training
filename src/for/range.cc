@@ -42,4 +42,10 @@ int main()
     {
         std::cout << "cf: " << cf << std::endl;
     }
+
+    std::cout << "second: "  << std::endl;
+    for (uint32_t i = 0; static_cast<ColumnFamilyNumber>(i) < ColumnFamilyNumber::ColumnFamily_Max; ++i)
+    {
+        std::cout << "cf: " << static_cast<ColumnFamilyNumber>(i)  << std::endl;
+    }
 }
