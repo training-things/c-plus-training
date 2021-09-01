@@ -8,6 +8,8 @@ cmake/**/*build*
 cmake-build-*
 gtest/**/*build*
 gtest/_deps
+benchmark/**/*build*
+benchmark/_deps
 build
 *.idea*
 
