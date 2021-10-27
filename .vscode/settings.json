@@ -76,7 +76,13 @@
         "set": "cpp",
         "stack": "cpp",
         "unordered_set": "cpp",
-        "variant": "cpp"
+        "variant": "cpp",
+        "cinttypes": "cpp",
+        "codecvt": "cpp",
+        "condition_variable": "cpp",
+        "numeric": "cpp",
+        "random": "cpp",
+        "regex": "cpp"
     },
     // "terminal.integrated.shell.windows": "cmd.exe",
     "commentTranslate.targetLanguage": "zh-CN",
