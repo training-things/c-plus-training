@@ -3,12 +3,12 @@
 enum class ColumnFamilyNumber : std::uint32_t
 {
     ColumnFamily_Default = 0,
-    ColumnFamily_Ttl,
-    ColumnFamily_String,
-    ColumnFamily_HashSet,
-    ColumnFamily_ZSet,
-    ColumnFamily_List,
-    ColumnFamily_Set,
+    ColumnFamily_Ttl = 1,
+    ColumnFamily_String = 2,
+    ColumnFamily_HashSet = 3,
+    ColumnFamily_ZSet = 4,
+    ColumnFamily_List = 5,
+    ColumnFamily_Set = 6,
     ColumnFamily_Max
 };
 
@@ -48,4 +48,9 @@ int main()
     {
         std::cout << "cf: " << static_cast<ColumnFamilyNumber>(i)  << std::endl;
     }
+
+    ColumnFamilyNumber cf1 = ColumnFamilyNumber::ColumnFamily_Max;
+
+    std::cout << "cf1 value: " << (int)cf1 << std::endl;
+
 }

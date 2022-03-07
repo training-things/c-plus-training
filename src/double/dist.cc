@@ -1,6 +1,9 @@
 #include <iostream>
 #include <string>
 #include <math.h>
+#include <iomanip>
+#include <limits>
+#include <sstream>
 
 using namespace std;
 
@@ -69,6 +72,13 @@ static double dist_doca(double lng1, double lat1, double lng2, double lat2)
     return sqrt(dx * dx + dy * dy);
 }
 
+std::string toString(double o) 
+{
+    std::ostringstream os;
+    os << std::setprecision(std::numeric_limits<double>::max_digits10) << o;
+    return os.str();
+}
+
 int main()
 {
 
@@ -82,7 +92,14 @@ int main()
     double dist2 = dist_doca(lng1, lat1, lng2, lat2);
     double dist3 = dist_ha(lng1, lat1, lng2, lat2);
 
+    double dist4 = dist_doca(110.888579405, 34.516926809, 110.888351899, 34.517041499);
+
     std::cout << "dist1=" << dist1 << std::endl;
     std::cout << "dist2=" << dist2 << std::endl;
     std::cout << "dist3=" << dist3 << std::endl;
+
+    std::cout << "dist4=" << dist4 << std::endl;
+    
+    std::cout << "dist4(toString)=" << toString(dist4) << std::endl;
+    
 }
