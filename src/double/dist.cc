@@ -4,6 +4,8 @@
 #include <iomanip>
 #include <limits>
 #include <sstream>
+#include <vector>
+#include <stdlib.h>
 
 using namespace std;
 
@@ -72,16 +74,15 @@ static double dist_doca(double lng1, double lat1, double lng2, double lat2)
     return sqrt(dx * dx + dy * dy);
 }
 
-std::string toString(double o) 
+std::string toString(double o)
 {
     std::ostringstream os;
     os << std::setprecision(std::numeric_limits<double>::max_digits10) << o;
     return os.str();
 }
 
-int main()
+void case1()
 {
-
     double lng1 = 116.30666213;
     double lat1 = 40.03825211;
 
@@ -99,7 +100,348 @@ int main()
     std::cout << "dist3=" << dist3 << std::endl;
 
     std::cout << "dist4=" << dist4 << std::endl;
-    
+
     std::cout << "dist4(toString)=" << toString(dist4) << std::endl;
-    
+}
+
+std::vector<std::string> SplitStringDelim(const std::string &arg,
+                                          const std::string &delim)
+{
+    std::vector<std::string> splits;
+    // splits.reserve(4);
+
+    std::size_t beg = 0;
+    std::size_t delim_size = delim.size();
+    std::size_t pos = arg.find(delim);
+    while (pos != arg.npos)
+    {
+        splits.push_back(arg.substr(beg, pos - beg));
+        beg = pos + delim_size;
+        pos = arg.find(delim, beg);
+    }
+    splits.push_back(arg.substr(beg));
+
+    return splits;
+}
+std::vector<std::string> SplitStringDelim2(const std::string &arg,
+                                           const std::string &delim)
+{
+    std::vector<std::string> splits;
+    splits.reserve(4);
+
+    std::size_t beg = 0;
+    std::size_t delim_size = delim.size();
+    std::size_t pos = arg.find(delim);
+    while (pos != arg.npos)
+    {
+        splits.push_back(arg.substr(beg, pos - beg));
+        beg = pos + delim_size;
+        pos = arg.find(delim, beg);
+    }
+    splits.push_back(arg.substr(beg));
+
+    return splits;
+}
+
+class GeoPosition
+{
+public:
+    std::string latitude;
+    std::string longitude;
+
+    double lat;
+    double lng;
+
+    explicit GeoPosition(const std::string &la = "", const std::string &lo = "")
+        : latitude(la), longitude(lo)
+    {
+        lat = atof(la.c_str());
+        lng = atof(lo.c_str());
+    }
+    void setPos(const std::string &la = "", const std::string &lo = "")
+    {
+        latitude = la;
+        longitude = lo;
+        lat = atof(la.c_str());
+        lng = atof(lo.c_str());
+    }
+
+    std::string ToString() const { return longitude + "," + latitude; }
+};
+
+void getBizValueCheckEmpty(const string &dest, string &output)
+{
+    output = dest.substr(0, dest.length() - 1);
+    if (output.length() > 0)
+    {
+        if (output == "test")
+        {
+            output.clear();
+            output = "";
+        }
+    }
+}
+
+class GeoObject
+{
+public:
+    GeoPosition position;
+    std::string uid;
+    std::string value;
+    double dist;
+
+    GeoObject() {}
+
+    GeoObject(const GeoPosition &pos, const std::string &i,
+              const std::string &val, double di = 0)
+        : position(pos), uid(i), value(val), dist(di) {}
+};
+
+struct GeoObject2
+{
+    // public:
+    std::string latitude;
+    std::string longitude;
+    // double lat;
+    // double lng;
+
+    std::string uid;
+    std::string value;
+    double dist;
+
+    // // GeoObject2() {}
+
+    // GeoObject2();
+    // GeoObject2(const GeoObject2 &) = default;
+    // GeoObject2 &operator=(const GeoObject2 &other);
+
+    // // GeoObject2(GeoObject2 const &) = delete;
+    // // GeoObject2 &operator=(GeoObject2 const &) = delete;
+
+    GeoObject2(const GeoObject2 &other) : latitude(std::move(other.latitude)), longitude(std::move(other.longitude)), uid(std::move(other.uid)), value(std::move(other.value)), dist(other.dist)
+    {
+        // printf("copy constructed\n");
+    }
+
+    explicit GeoObject2(const std::string &la, const std::string &lo, const std::string &i,
+                        const std::string &val, double di = 0)
+        : latitude(la), longitude(lo), uid(i), value(val), dist(di)
+    {
+        // printf("constructed\n");
+    }
+
+    explicit GeoObject2(const std::string &&la, const std::string &&lo, const std::string &&i,
+                        const std::string &&val, double di = 0)
+        : latitude(std::move(la)), longitude(std::move(lo)), uid(std::move(i)), value(std::move(val)), dist(di)
+    {
+        // printf("move\n");
+    }
+    // ~GeoObject2() {
+    //     //  printf("clean\n");
+    // }
+};
+
+double fRand(double fMin, double fMax)
+{
+    double f = (double)rand() / RAND_MAX;
+    return fMin + f * (fMax - fMin);
+}
+
+std::vector<std::string> prepareKey(int N = 1000)
+{
+
+    std::vector<std::string> result;
+    for (size_t i = 0; i < N; i++)
+    {
+        std::string arg = "663$^$1220101200033110113023200213132&&1062943904942260224&&";
+
+        // 27.090602&&114.977901
+
+        arg.append(toString(fRand(27, 28)));
+        arg.append("&&");
+        arg.append(toString(fRand(114, 115)));
+        // std::cout << arg << std::endl;
+        result.push_back(arg);
+    }
+
+    return result;
+}
+
+std::vector<std::string> prepareLat(int N = 1000)
+{
+
+    std::vector<std::string> result;
+    for (size_t i = 0; i < N; i++)
+    {
+        result.push_back(toString(fRand(27, 28)));
+    }
+
+    return result;
+}
+
+void caseAtof(int N = 1000)
+{
+
+    std::string la = "27.090602";
+    std::string ln = "114.090602";
+
+    std::vector<std::string> splits = prepareLat(N * 2);
+
+    auto start = clock();
+
+    for (const auto &arg : splits)
+    {
+        auto lat = atof(arg.c_str());
+    }
+
+    auto end = clock();
+
+    auto dt = end - start;
+
+    std::cout << "caseAtof N=" << N << " dt: " << (double)dt  << "us"
+              << " splits.size=" << splits.size() << std::endl;
+}
+
+int caseGetBizValueCheckEmpty(int N = 1000)
+{
+    auto start = clock();
+    std::string k = "663$^$1220101200033110113023200213132&&1062943904942260224&&";
+
+    for (size_t i = 0; i < N; i++)
+    {
+        std::string val;
+        getBizValueCheckEmpty(k, val);
+    }
+
+    auto end = clock();
+    auto dt = end - start;
+
+    std::cout << "caseGetBizValueCheckEmpty N=" << N << " dt: " << (double)dt  << "us" << std::endl;
+}
+
+int clacDist(int N = 1000)
+{
+
+    auto keys = prepareKey(N);
+
+    std::vector<std::string> preParts;
+    preParts.push_back("663$^$1220101200033110113023200213132");
+    preParts.push_back("1062943904942260224");
+    preParts.push_back(toString(fRand(27, 28)));
+    preParts.push_back(toString(fRand(27, 28)));
+
+    auto start = clock();
+
+    double radius = 100000.0;
+
+    std::vector<GeoObject> values;
+
+    GeoPosition pos("27.390602", "114.1779");
+
+    for (const auto &k : keys)
+    {
+        // auto parts = preParts; // SplitStringDelim(k, "&&");
+        auto parts = SplitStringDelim(k, "&&");
+
+        GeoPosition obj_pos(parts[2], parts[3]);
+
+        double dist = dist_doca(pos.lng, pos.lat, obj_pos.lng, obj_pos.lat);
+        if (dist > radius)
+        {
+            continue;
+        }
+        std::string val;
+        getBizValueCheckEmpty(k, val);
+
+        GeoObject obj(obj_pos, parts[1], val, dist);
+        values.push_back(std::move(obj));
+    }
+
+    auto end = clock();
+
+    auto dt = end - start;
+
+    std::cout << "clacDist N=" << N << " dt: " << (double)dt  << "us"
+              << " values.size=" << values.size() << std::endl;
+}
+
+int clacDist2(int N = 1000)
+{
+
+    auto keys = prepareKey(N);
+
+    std::vector<std::string> preParts;
+    preParts.push_back("663$^$1220101200033110113023200213132");
+    preParts.push_back("1062943904942260224");
+    preParts.push_back(toString(fRand(27, 28)));
+    preParts.push_back(toString(fRand(27, 28)));
+
+    auto start = clock();
+
+    double radius = 100000.0;
+
+    std::vector<GeoObject2> values;
+    values.reserve(1000);
+
+
+    GeoPosition pos("27.390602", "114.1779");
+
+    for (const auto &k : keys)
+    {
+        // auto parts = preParts; // SplitStringDelim(k, "&&");
+        auto parts = SplitStringDelim2(k, "&&"); // 6-7ms
+
+        // GeoPosition obj_pos(parts[2], parts[3]);
+        double lat = atof(parts[2].c_str());
+        double lng = atof(parts[3].c_str()); // us level
+
+        // double lat = 27.090602;
+        // double lng = 114.090602;
+
+        double dist = dist_doca(pos.lng, pos.lat, lng, lat); // 1-2ms
+        if (dist > radius)
+        {
+            continue;
+        }
+        // std::string val;
+        // getBizValueCheckEmpty(k, val);
+
+        //  GeoObject2(const std::string &la, const std::string &lo,  double lat,double lng,  const std::string &i,
+        //   const std::string &val, double di = 0)
+
+        // GeoObject2 obj(std::move(parts[2]), std::move(parts[3]), std::move(parts[1]), std::move(k), dist);
+        // values.push_back(std::move(obj));
+
+        //  const std::string latitude;
+        // const std::string longitude;
+
+        // const std::string uid;
+        // const std::string value;
+        // double dist;
+        // values.emplace_back(GeoObject2{std::move(parts[2]), std::move(parts[3]), std::move(parts[1]), std::move(k), dist});
+        // GeoObject2{parts[2], parts[3], parts[1], k, dist};
+        // values.emplace_back(std::move(parts[2]), std::move(parts[3]), std::move(parts[1]), std::move(k), dist);
+    }
+
+    auto end = clock();
+
+    auto dt = end - start;
+
+    std::cout << "clacDist2 N=" << N << " dt: " << (double)dt  << "us"
+              << " values.size=" << values.size() << std::endl;
+}
+
+int main()
+{
+    // case1();
+    int N = 12000;
+
+    caseAtof(N);
+    caseGetBizValueCheckEmpty(N);
+
+    clacDist();
+
+    clacDist(N);
+    clacDist2();
+    clacDist2(N);
 }
