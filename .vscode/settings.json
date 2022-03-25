@@ -83,13 +83,14 @@
         "numeric": "cpp",
         "random": "cpp",
         "regex": "cpp",
-        "__bits": "cpp"
+        "__bits": "cpp",
+        "filesystem": "cpp"
     },
     // "terminal.integrated.shell.windows": "cmd.exe",
     "commentTranslate.targetLanguage": "zh-CN",
     "code-runner.executorMap": {
         // "c": "cd $dir && gcc -Wall -Wextra -std=c99 -g $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
-        "cpp": "cd $dir && g++ -Wall -Wextra -std=c++11 -O2 -lpthread -g $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt"
+        "cpp": "cd $dir && g++ -Wall -Wextra -std=c++11 -O2 -I./ -lpthread -g $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt"
     },
     "editor.tokenColorCustomizations": {
         "textMateRules": [

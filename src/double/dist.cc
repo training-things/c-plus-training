@@ -6,6 +6,10 @@
 #include <sstream>
 #include <vector>
 #include <stdlib.h>
+#include <sys/time.h>
+#include <unistd.h>
+#include <map>
+#include <cmath>
 
 using namespace std;
 
@@ -80,6 +84,50 @@ std::string toString(double o)
     os << std::setprecision(std::numeric_limits<double>::max_digits10) << o;
     return os.str();
 }
+
+double naive(const char *p)
+{
+    double r = 0.0;
+    bool neg = false;
+    if (*p == '-')
+    {
+        neg = true;
+        ++p;
+    }
+    while (*p >= '0' && *p <= '9')
+    {
+        r = (r * 10.0) + (*p - '0');
+        ++p;
+    }
+    if (*p == '.')
+    {
+        double f = 0.0;
+        int n = 0;
+        ++p;
+        while (*p >= '0' && *p <= '9')
+        {
+            f = (f * 10.0) + (*p - '0');
+            ++p;
+            ++n;
+        }
+        r += f / std::pow(10.0, n);
+    }
+    if (neg)
+    {
+        r = -r;
+    }
+    return r;
+}
+
+// us
+uint64_t now()
+{
+    struct timeval tv;
+    gettimeofday(&tv, nullptr);
+    return static_cast<uint64_t>(tv.tv_sec) * 1000000 + tv.tv_usec;
+}
+
+// clock() 函数仅统计 cpu 时间，不算 sleep
 
 void case1()
 {
@@ -267,6 +315,20 @@ std::vector<std::string> prepareKey(int N = 1000)
     return result;
 }
 
+std::map<int, std::pair<double, double>> prepareKeyDouble(int N = 1000)
+{
+    std::map<int, std::pair<double, double>> result;
+    for (size_t i = 0; i < N; i++)
+    {
+        auto lat = fRand(27, 28);
+        auto lng = fRand(114, 115);
+
+        result.insert({(int)i, {lat, lng}});
+    }
+
+    return result;
+}
+
 std::vector<std::string> prepareLat(int N = 1000)
 {
 
@@ -287,24 +349,24 @@ void caseAtof(int N = 1000)
 
     std::vector<std::string> splits = prepareLat(N * 2);
 
-    auto start = clock();
+    auto start = now();
 
     for (const auto &arg : splits)
     {
         auto lat = atof(arg.c_str());
     }
 
-    auto end = clock();
+    auto end = now();
 
     auto dt = end - start;
 
-    std::cout << "caseAtof N=" << N << " dt: " << (double)dt  << "us"
+    std::cout << "caseAtof N=" << N << " dt: " << dt << "us"
               << " splits.size=" << splits.size() << std::endl;
 }
 
 int caseGetBizValueCheckEmpty(int N = 1000)
 {
-    auto start = clock();
+    auto start = now();
     std::string k = "663$^$1220101200033110113023200213132&&1062943904942260224&&";
 
     for (size_t i = 0; i < N; i++)
@@ -313,10 +375,28 @@ int caseGetBizValueCheckEmpty(int N = 1000)
         getBizValueCheckEmpty(k, val);
     }
 
-    auto end = clock();
+    auto end = now();
     auto dt = end - start;
 
-    std::cout << "caseGetBizValueCheckEmpty N=" << N << " dt: " << (double)dt  << "us" << std::endl;
+    std::cout << "caseGetBizValueCheckEmpty N=" << N << " dt: " << dt << "us" << std::endl;
+}
+
+void caseDistDoca(int N = 1000)
+{
+    auto keys = prepareKeyDouble(N);
+    GeoPosition pos("27.390602", "114.1779");
+
+    auto start = now();
+
+    for (const auto &k : keys)
+    {
+        dist_doca(pos.lng, pos.lat, k.second.second, k.second.first);
+    }
+
+    auto end = now();
+    auto dt = end - start;
+
+    std::cout << "caseDistDoca N=" << N << " dt: " << dt << "us" << std::endl;
 }
 
 int clacDist(int N = 1000)
@@ -329,14 +409,13 @@ int clacDist(int N = 1000)
     preParts.push_back("1062943904942260224");
     preParts.push_back(toString(fRand(27, 28)));
     preParts.push_back(toString(fRand(27, 28)));
+    GeoPosition pos("27.390602", "114.1779");
 
-    auto start = clock();
+    auto start = now();
 
     double radius = 100000.0;
 
     std::vector<GeoObject> values;
-
-    GeoPosition pos("27.390602", "114.1779");
 
     for (const auto &k : keys)
     {
@@ -357,11 +436,11 @@ int clacDist(int N = 1000)
         values.push_back(std::move(obj));
     }
 
-    auto end = clock();
+    auto end = now();
 
     auto dt = end - start;
 
-    std::cout << "clacDist N=" << N << " dt: " << (double)dt  << "us"
+    std::cout << "clacDist N=" << N << " dt: " << dt << "us"
               << " values.size=" << values.size() << std::endl;
 }
 
@@ -376,15 +455,13 @@ int clacDist2(int N = 1000)
     preParts.push_back(toString(fRand(27, 28)));
     preParts.push_back(toString(fRand(27, 28)));
 
-    auto start = clock();
+    GeoPosition pos("27.390602", "114.1779");
 
+    auto start = now();
     double radius = 100000.0;
 
     std::vector<GeoObject2> values;
     values.reserve(1000);
-
-
-    GeoPosition pos("27.390602", "114.1779");
 
     for (const auto &k : keys)
     {
@@ -392,8 +469,8 @@ int clacDist2(int N = 1000)
         auto parts = SplitStringDelim2(k, "&&"); // 6-7ms
 
         // GeoPosition obj_pos(parts[2], parts[3]);
-        double lat = atof(parts[2].c_str());
-        double lng = atof(parts[3].c_str()); // us level
+        double lat = naive(parts[2].c_str());
+        double lng = naive(parts[3].c_str()); // us level
 
         // double lat = 27.090602;
         // double lng = 114.090602;
@@ -423,11 +500,124 @@ int clacDist2(int N = 1000)
         // values.emplace_back(std::move(parts[2]), std::move(parts[3]), std::move(parts[1]), std::move(k), dist);
     }
 
-    auto end = clock();
+    auto end = now();
 
     auto dt = end - start;
 
-    std::cout << "clacDist2 N=" << N << " dt: " << (double)dt  << "us"
+    std::cout << "clacDist2 N=" << N << " dt: " << dt << "us"
+              << " values.size=" << values.size() << std::endl;
+}
+
+
+
+// worse case
+int clacDist3(int N = 1000)
+{
+
+    auto keys = prepareKey(N);
+
+    std::vector<std::string> preParts;
+    preParts.push_back("663$^$1220101200033110113023200213132");
+    preParts.push_back("1062943904942260224");
+    preParts.push_back(toString(fRand(27, 28)));
+    preParts.push_back(toString(fRand(27, 28)));
+
+    GeoPosition posObj("27.390602", "114.1779");
+    std::string delim = "&&";
+    std::size_t delim_size = delim.size();
+
+    auto start = now();
+    double radius = 100000.0;
+
+    std::vector<GeoObject2> values;
+    values.reserve(1000);
+
+    for (const auto &k : keys)
+    {
+        // auto parts = preParts; // SplitStringDelim(k, "&&");
+        // auto parts = SplitStringDelim2(k, "&&"); // 6-7ms
+
+    /********************** std::vector<std::string> splits;
+     * const std::string &arg,
+                                           const std::string &delim)
+{
+    splits.reserve(4);
+
+    std::size_t beg = 0;
+    std::size_t delim_size = delim.size();
+    std::size_t pos = arg.find(delim);
+    while (pos != arg.npos)
+    {
+        splits.push_back(arg.substr(beg, pos - beg));
+        beg = pos + delim_size;
+        pos = arg.find(delim, beg);
+    }
+    splits.push_back(arg.substr(beg));
+    */
+       std::string kt = k;
+       std::size_t beg = 0;
+       std::size_t pos = k.find(delim);
+       std::string k0 = k.substr(beg, pos - beg);
+
+       beg = pos + delim_size;
+       pos = k.find(delim, beg);
+       std::string k1 = k.substr(beg, pos - beg);
+
+
+       beg = pos + delim_size;
+       pos = k.find(delim, beg);
+       std::string k2 = k.substr(beg, pos - beg);
+
+
+       beg = pos + delim_size;
+       pos = k.find(delim, beg);
+       std::string k3 = k.substr(beg, pos - beg);
+
+
+    //    std::cout << "k==" << k << std::endl;
+    //    std::cout << "k0==" << k0 << std::endl;
+    //    std::cout << "k1==" << k1 << std::endl;
+    //    std::cout << "k2==" << k2 << std::endl;
+    //    std::cout << "k3==" << k3 << std::endl;
+
+
+        // GeoPosition obj_pos(parts[2], parts[3]);
+        double lat = atof(k2.c_str());
+        double lng = atof(k3.c_str()); // us level
+
+        // double lat = 27.090602;
+        // double lng = 114.090602;
+
+        double dist = dist_doca(posObj.lng, posObj.lat, lng, lat); // 1-2ms
+        if (dist > radius)
+        {
+            continue;
+        }
+        // std::string val;
+        // getBizValueCheckEmpty(k, val);
+
+        //  GeoObject2(const std::string &la, const std::string &lo,  double lat,double lng,  const std::string &i,
+        //   const std::string &val, double di = 0)
+
+        // GeoObject2 obj(std::move(parts[2]), std::move(parts[3]), std::move(parts[1]), std::move(k), dist);
+        // values.push_back(std::move(obj));
+
+        //  const std::string latitude;
+        // const std::string longitude;
+
+        // const std::string uid;
+        // const std::string value;
+        // double dist;
+        // values.emplace_back(GeoObject2{std::move(parts[2]), std::move(parts[3]), std::move(parts[1]), std::move(k), dist});
+        // GeoObject2{parts[2], parts[3], parts[1], k, dist};
+        // values.emplace_back(std::move(parts[2]), std::move(parts[3]), std::move(parts[1]), std::move(k), dist);
+    }
+
+    auto end = now();
+
+    auto dt = end - start;
+
+    std::cout << "clacDist3 N=" << N << " dt: " << dt << "us"
               << " values.size=" << values.size() << std::endl;
 }
 
@@ -440,8 +630,11 @@ int main()
     caseGetBizValueCheckEmpty(N);
 
     clacDist();
+    caseDistDoca(N);
 
     clacDist(N);
     clacDist2();
     clacDist2(N);
+
+    // clacDist3(N);
 }
