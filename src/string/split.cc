@@ -154,6 +154,22 @@ std::vector<std::string> SplitStringDelim8(const std::string &str, const std::st
     return res;
 }
 
+
+std::vector<std::string> SplitStringDelim9(const std::string& str, const std::string& delims)
+{
+  std::vector<std::string> output;
+  output.reserve(4);
+
+  for (auto first = str.data(), second = str.data(), last = first + str.size(); second != last && first != last; first = second + 1) {
+    second = std::find_first_of(first, last, std::begin(delims), std::end(delims));
+
+    if (first != second)
+      output.emplace_back(first, second);
+  }
+
+  return output;
+}
+
 void case1(size_t N = 1000)
 {
     auto start = now();
@@ -296,9 +312,27 @@ void case8(size_t N = 1000)
     std::cout << "case8 dt: " << dt  << "us" << std::endl;
 }
 
+void case9(size_t N = 1000)
+{
+    auto start = now();
+
+    std::string arg = "663$^$1220101200033110113023200213132&&1062943904942260224&&27.090602&&114.977901";
+    for (size_t i = 0; i < N; i++)
+    {
+        auto res = SplitStringDelim9(arg, "&&");
+    }
+
+    auto end = now();
+
+    auto dt = end - start;
+
+    std::cout << "case9 dt: " << dt  << "us" << std::endl;
+}
+
+
 int main()
 {
-    size_t N = 10000;
+    size_t N = 30000;
     case1(N);
     case2(N);
     // case3(N); // worse case
@@ -308,6 +342,8 @@ int main()
     case6(N);
     // case7(N);
     // case8(N); // worse case case8 dt: 185420us
+
+    case9(N);
 
     /* case
     case1 dt: 4907us

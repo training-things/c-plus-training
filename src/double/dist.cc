@@ -245,6 +245,11 @@ public:
         : position(pos), uid(i), value(val), dist(di) {}
 };
 
+struct GeoObject3
+{
+    std::string latitude;
+    std::string longitude;
+};
 struct GeoObject2
 {
     // public:
@@ -496,7 +501,12 @@ int clacDist2(int N = 1000)
         // const std::string value;
         // double dist;
         // values.emplace_back(GeoObject2{std::move(parts[2]), std::move(parts[3]), std::move(parts[1]), std::move(k), dist});
-        // GeoObject2{parts[2], parts[3], parts[1], k, dist};
+        // GeoObject2 ob{parts[2], parts[3], parts[1], k, dist};
+
+        GeoObject3 ok{"person", "name"};
+
+        // values.emplace_back(std::move(parts[2]), std::move(parts[3]), std::move(parts[1]), std::move(k), dist);
+
         // values.emplace_back(std::move(parts[2]), std::move(parts[3]), std::move(parts[1]), std::move(k), dist);
     }
 
@@ -507,8 +517,6 @@ int clacDist2(int N = 1000)
     std::cout << "clacDist2 N=" << N << " dt: " << dt << "us"
               << " values.size=" << values.size() << std::endl;
 }
-
-
 
 // worse case
 int clacDist3(int N = 1000)
@@ -537,49 +545,45 @@ int clacDist3(int N = 1000)
         // auto parts = preParts; // SplitStringDelim(k, "&&");
         // auto parts = SplitStringDelim2(k, "&&"); // 6-7ms
 
-    /********************** std::vector<std::string> splits;
-     * const std::string &arg,
-                                           const std::string &delim)
-{
-    splits.reserve(4);
-
-    std::size_t beg = 0;
-    std::size_t delim_size = delim.size();
-    std::size_t pos = arg.find(delim);
-    while (pos != arg.npos)
+        /********************** std::vector<std::string> splits;
+         * const std::string &arg,
+                                               const std::string &delim)
     {
-        splits.push_back(arg.substr(beg, pos - beg));
+        splits.reserve(4);
+
+        std::size_t beg = 0;
+        std::size_t delim_size = delim.size();
+        std::size_t pos = arg.find(delim);
+        while (pos != arg.npos)
+        {
+            splits.push_back(arg.substr(beg, pos - beg));
+            beg = pos + delim_size;
+            pos = arg.find(delim, beg);
+        }
+        splits.push_back(arg.substr(beg));
+        */
+        std::string kt = k;
+        std::size_t beg = 0;
+        std::size_t pos = k.find(delim);
+        std::string k0 = k.substr(beg, pos - beg);
+
         beg = pos + delim_size;
-        pos = arg.find(delim, beg);
-    }
-    splits.push_back(arg.substr(beg));
-    */
-       std::string kt = k;
-       std::size_t beg = 0;
-       std::size_t pos = k.find(delim);
-       std::string k0 = k.substr(beg, pos - beg);
+        pos = k.find(delim, beg);
+        std::string k1 = k.substr(beg, pos - beg);
 
-       beg = pos + delim_size;
-       pos = k.find(delim, beg);
-       std::string k1 = k.substr(beg, pos - beg);
+        beg = pos + delim_size;
+        pos = k.find(delim, beg);
+        std::string k2 = k.substr(beg, pos - beg);
 
+        beg = pos + delim_size;
+        pos = k.find(delim, beg);
+        std::string k3 = k.substr(beg, pos - beg);
 
-       beg = pos + delim_size;
-       pos = k.find(delim, beg);
-       std::string k2 = k.substr(beg, pos - beg);
-
-
-       beg = pos + delim_size;
-       pos = k.find(delim, beg);
-       std::string k3 = k.substr(beg, pos - beg);
-
-
-    //    std::cout << "k==" << k << std::endl;
-    //    std::cout << "k0==" << k0 << std::endl;
-    //    std::cout << "k1==" << k1 << std::endl;
-    //    std::cout << "k2==" << k2 << std::endl;
-    //    std::cout << "k3==" << k3 << std::endl;
-
+        //    std::cout << "k==" << k << std::endl;
+        //    std::cout << "k0==" << k0 << std::endl;
+        //    std::cout << "k1==" << k1 << std::endl;
+        //    std::cout << "k2==" << k2 << std::endl;
+        //    std::cout << "k3==" << k3 << std::endl;
 
         // GeoPosition obj_pos(parts[2], parts[3]);
         double lat = atof(k2.c_str());
@@ -624,10 +628,10 @@ int clacDist3(int N = 1000)
 int main()
 {
     // case1();
-    int N = 12000;
+    int N = 32000;
 
     caseAtof(N);
-    caseGetBizValueCheckEmpty(N);
+    // caseGetBizValueCheckEmpty(N);
 
     clacDist();
     caseDistDoca(N);
