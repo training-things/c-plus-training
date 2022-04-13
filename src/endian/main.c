@@ -70,15 +70,15 @@ int main(void)
 
     sprintf(buf, "hello world1");
     memrev16(buf);
-    printf("%s\n", buf);
+    printf("%s\n", buf); // ehllo world1
 
     sprintf(buf, "hello world2");
     memrev32(buf);
-    printf("%s\n", buf);
+    printf("%s\n", buf); // lleho world2
 
     sprintf(buf, "hello world3");
     memrev64(buf);
-    printf("%s\n", buf);
+    printf("%s\n", buf); // ow ollehrld3
 
     return 0;
 }
