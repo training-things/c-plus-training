@@ -627,6 +627,11 @@ int clacDist3(int N = 1000)
 
 int main()
 {
+
+    auto d = dist_doca(116.307254, 40.038921, 116.307831, 40.03903);
+
+    std::cout << d << std::endl;
+
     // case1();
     int N = 32000;
 
