@@ -85,7 +85,10 @@
     "regex": "cpp",
     "__bits": "cpp",
     "filesystem": "cpp",
-    "future": "cpp"
+    "future": "cpp",
+    "__verbose_abort": "cpp",
+    "compare": "cpp",
+    "concepts": "cpp"
   },
   // "terminal.integrated.shell.windows": "cmd.exe",
   "commentTranslate.targetLanguage": "zh-CN",
